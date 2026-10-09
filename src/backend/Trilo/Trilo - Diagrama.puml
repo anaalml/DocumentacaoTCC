@@ -1,0 +1,25 @@
+@startuml
+class Pedido{
+    - Long id
+    - LocalDateTime dataAbertura
+    - LocalDateTime dataCancelado
+    - LocalDateTime dataPronto
+    - LocalDateTime dataEntregue
+}
+
+class ItemPedido{
+    - Long id
+    - Double vUnit
+}
+
+class Produto{
+    - Long id
+    - String name
+    - String descricao
+    - Double valor
+    - String categoria
+    - Double qtd
+    - String imagem
+}
+
+@enduml

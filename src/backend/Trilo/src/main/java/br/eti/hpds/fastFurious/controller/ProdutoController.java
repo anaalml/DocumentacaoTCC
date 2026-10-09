@@ -1,0 +1,119 @@
+package br.eti.hpds.fastFurious.controller;
+
+import br.eti.hpds.fastFurious.domain.model.Produto;
+import br.eti.hpds.fastFurious.domain.repository.ProdutoRepository;
+import br.eti.hpds.fastFurious.service.ProdutoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ProdutoController {
+    
+    @Autowired
+    private ProdutoRepository produtoRepository;
+    
+   @Autowired
+   private ProdutoService produtoService;
+    
+    @GetMapping("/produto")
+    @Operation(summary = "Lista os Produtos", description = "Retorna todos os Produtos")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
+    public List<Produto> listar() {
+        return produtoRepository.findAll();
+    }
+    
+    @GetMapping("/produto/{produtoID}")
+    @Operation(summary = "Lista os Produtos por ID", description = "Retorna os Produtos de um determinado ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
+    public ResponseEntity<Produto> buscar (@PathVariable Long produtoID) {
+        
+        Optional<Produto> produto = produtoRepository.findById(produtoID);
+        
+        if(produto.isPresent()) {
+            return ResponseEntity.ok(produto.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @GetMapping("/produto/cat/{categoria}")
+    @Operation(summary = "Lista os Produtos por categoria", description = "Retorna os Produtos de uma determinada categoria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
+    public ResponseEntity<Produto> buscar (@PathVariable String categoria){
+        
+        Optional<Produto> produto = produtoRepository.findByCategoria(categoria);
+        
+        if(produto.isPresent()){
+            return ResponseEntity.ok(produto.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @PostMapping("/produto")
+    
+    @Operation(summary = "Publica uma determinad Produto", description = "Publicação de um Produto na base de dados")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Successfully posted"),
+        @ApiResponse(responseCode = "422", description = "The format is correct, but the data failed the business rule")}
+    )
+    
+    @ResponseStatus(HttpStatus.CREATED)
+    public Produto adicionar(@Valid @RequestBody Produto produto){
+        
+        return produtoService.criar(produto);
+    }
+    
+    @PutMapping("/produto/{produtoID}")
+    @Operation(summary = "Atualiza um determinado Produto ", description = "Atualização de um Produto na base de dados")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully updated"),
+        @ApiResponse(responseCode = "404", description = "Not found - The product was not found")}
+    )
+    public ResponseEntity<Produto> atualizar(@Valid @PathVariable Long produtoID,
+            @RequestBody Produto produto) {
+        
+        
+        if(!produtoRepository.existsById(produtoID)){
+            return ResponseEntity.notFound().build();
+        }
+        
+        produto.setId(produtoID);
+        produto = produtoService.criar(produto);
+        return ResponseEntity.ok(produto);
+    }
+    
+    @DeleteMapping("/produto/{produtoID}")
+    public ResponseEntity<Void> excluir(@PathVariable Long produtoID){
+        
+        if (!produtoRepository.existsById(produtoID)){
+            return ResponseEntity.notFound().build();
+        }
+        
+        produtoService.excluir(produtoID);
+        return ResponseEntity.noContent().build();
+    }
+}
