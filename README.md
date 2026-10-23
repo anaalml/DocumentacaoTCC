@@ -34,6 +34,12 @@ satisfação dos usuários e otimizar a alocação dos recursos humanos da equip
   
 - **Outras ferramentas:** Docker
 
+## 🔗 Repositórios do Projeto
+
+* 🖥️ **Front-end / Totem:** [trilo]((https://github.com/anaalml/trilo.git))
+* ⚙️ **Back-end / API:** [Nome do Repositório](https://github.com/usuario/repositorio-api)
+* 📱 **Front-end / Cozinha:** [Nome do Repositório](https://github.com/usuario/repositorio-painel)
+
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
