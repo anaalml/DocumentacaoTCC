@@ -36,9 +36,9 @@ satisfação dos usuários e otimizar a alocação dos recursos humanos da equip
 
 ## 🔗 Repositórios do Projeto
 
-* 🖥️ **Front-end / Totem:** [trilo]((https://github.com/anaalml/trilo.git))
+* 🖥️ **Front-end / Totem:** [trilo](https://github.com/anaalml/trilo.git)
 * ⚙️ **Back-end / API:** [Nome do Repositório](https://github.com/usuario/repositorio-api)
-* 📱 **Front-end / Cozinha:** [Nome do Repositório](https://github.com/usuario/repositorio-painel)
+* 📱 **Front-end / Cozinha:** [TriloCozinha](https://github.com/NajuMaciel/TriloCozinha.git)
 
 ## 🚀 Como Executar o Projeto
 
